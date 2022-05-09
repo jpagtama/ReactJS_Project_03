@@ -1,29 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ExpenseForm.css'
 
-const ExpenseForm = () => {
-    const titleHandler = (event) => {
-        console.log("title: ", event.target.value)
+const ExpenseForm = props => {
+    // More common in projects. Below creates multiple states
+    const [enteredTitle, setEnteredTitle] = useState('')
+    const [expense, setExpense] = useState('')
+    const [date, setDate] = useState('')
+
+    const titleHandler = (event) => {setEnteredTitle(event.target.value)}
+    const expenseHandler = (event) => {setExpense(event.target.value)}
+    const dateHandler = (event) => {setDate(event.target.value)}
+
+    // Creates a single state for this component. Same as above but uses one useState()
+    // const [userInput, setUserInput] = useState({
+    //     title: '',
+    //     expense: '',
+    //     date: ''
+    // })
+
+    // const titleHandler = (event) => {
+    //     setUserInput(prevState => {
+    //         return { ...prevState, title: event.target.value }
+    //     })
+    // }
+    // const expenseHandler = (event) => {
+    //     setUserInput(prevState => {
+    //         return { ...prevState, expense: event.target.value }
+    //     })
+    // }
+    // const dateHandler = (event) => {
+    //     setUserInput(prevState => {
+    //         return { ...prevState, date: event.target.value }
+    //     })
+    // }
+
+    const submitHandler = event => {
+        event.preventDefault()
+        
+        const expenseData = {
+            title: enteredTitle,
+            expense: expense,
+            date: date
+        }
+
+        props.dataHandler(expenseData)
+
+        // console.log("Updated Title: ", expenseData.title);
+        // console.log("Updated Expense", expenseData.expense);
+        // console.log("Updated Date", expenseData.date);
+
+        setEnteredTitle('');
+        setExpense('');
+        setDate('');
     }
+    
 
     return (
-        <form>
+        <form onSubmit={submitHandler} >
             <div className="new-expense__controls" >
                 <div className="new-expense__control" >
                     <label>Title</label>
-                    <input type="text" onChange={titleHandler} />
+                    <input type="text" onChange={titleHandler} value={enteredTitle} />
                 </div>
             </div>
             <div className="new-expense__controls" >
                 <div className="new-expense__control" >
                     <label>Amount</label>
-                    <input type="number" min="0.01" step="0.01" />
+                    <input type="number" min="0.01" step="0.01" onChange={expenseHandler} value={expense} />
                 </div>
             </div>
             <div className="new-expense__controls" >
                 <div className="new-expense__control" >
                     <label>Date</label>
-                    <input type="date" min="2019-01-01" max="2022-12-31" />
+                    <input type="date" min="2019-01-01" max="2022-12-31" onChange={dateHandler} value={date} />
                 </div>
             </div>
             <div className='new-expense__actions' >
