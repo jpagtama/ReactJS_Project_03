@@ -16,15 +16,11 @@ const ExpenseForm = props => {
         
         const expenseData = {
             title: enteredTitle,
-            expense: expense,
+            amount: expense,
             date: new Date(date)
         }
 
         props.dataHandler(expenseData)
-
-        // console.log("Updated Title: ", expenseData.title);
-        // console.log("Updated Expense", expenseData.expense);
-        // console.log("Updated Date", expenseData.date);
 
         setEnteredTitle('');
         setExpense('');
