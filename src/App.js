@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense'
 
@@ -24,14 +25,18 @@ const App = () => {
     },
   ];
 
+  const [expenseList, setExpenseList] = useState(expenses)
+
   const savedExpenseHandler = data => {
-    console.log('From App.js', data)
+    setExpenseList(prevState => {
+      return [data,...prevState]
+    })
   }
 
   return (
     <div>
       <NewExpense expenseHandler={savedExpenseHandler} />
-      <Expenses expenses={expenses} />
+      <Expenses expenses={expenseList} />
     </div>
   );
 }

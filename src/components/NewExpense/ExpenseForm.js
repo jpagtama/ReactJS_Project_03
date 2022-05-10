@@ -11,36 +11,13 @@ const ExpenseForm = props => {
     const expenseHandler = (event) => {setExpense(event.target.value)}
     const dateHandler = (event) => {setDate(event.target.value)}
 
-    // Creates a single state for this component. Same as above but uses one useState()
-    // const [userInput, setUserInput] = useState({
-    //     title: '',
-    //     expense: '',
-    //     date: ''
-    // })
-
-    // const titleHandler = (event) => {
-    //     setUserInput(prevState => {
-    //         return { ...prevState, title: event.target.value }
-    //     })
-    // }
-    // const expenseHandler = (event) => {
-    //     setUserInput(prevState => {
-    //         return { ...prevState, expense: event.target.value }
-    //     })
-    // }
-    // const dateHandler = (event) => {
-    //     setUserInput(prevState => {
-    //         return { ...prevState, date: event.target.value }
-    //     })
-    // }
-
     const submitHandler = event => {
         event.preventDefault()
         
         const expenseData = {
             title: enteredTitle,
             expense: expense,
-            date: date
+            date: new Date(date)
         }
 
         props.dataHandler(expenseData)

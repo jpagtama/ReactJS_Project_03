@@ -9,9 +9,7 @@ const Expenses = (props) => {
     const [year, setYear] = useState(new Date().getFullYear())
     useEffect(() => console.log("Year Selected: ", year))
 
-    const yearFilterHandler = yr => {
-        setYear(yr)
-    }
+    const yearFilterHandler = yr => { setYear(yr) }
 
     const expenses = props.expenses.map( element => 
         <ExpenseItem key={element.id} title={element.title} amount={element.amount} date={element.date} />
