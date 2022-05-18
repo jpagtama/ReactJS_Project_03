@@ -35,7 +35,6 @@ const ExpenseForm = props => {
     const openFormHandler = event => {
         event.preventDefault()
         setOpenForm(!openForm)
-        if (!openForm) {resetForm()}
     }
 
     if (!openForm) {
