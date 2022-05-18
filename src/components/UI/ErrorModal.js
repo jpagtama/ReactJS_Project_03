@@ -8,7 +8,7 @@ const ErrorModal = props => {
             <Card >
                 <div className={`${styles.modal}`}>
                     <div className={`${styles.header}`}><h2>Something went wrong</h2></div>
-                    <div className={`${styles.content}`}>Test</div>
+                    <div className={`${styles.content}`}>Please fill out the information on the form</div>
                     <button type="button" onClick={props.onDismissModal} className={`${styles.actions}`} >Okay</button>
                 </div>
             </Card>

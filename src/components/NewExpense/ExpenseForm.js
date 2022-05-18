@@ -17,7 +17,7 @@ const ExpenseForm = props => {
 
     const submitHandler = event => {
         event.preventDefault()
-        if (!enteredTitle.current.value.trim.length) {
+        if (!enteredTitle.current.value.trim().length || !expense.current.value.trim().length || !date.current.value.trim().length) {
             props.onOpenModal(true)
             return
         }
