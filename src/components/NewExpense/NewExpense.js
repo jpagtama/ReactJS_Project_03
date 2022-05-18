@@ -14,7 +14,7 @@ const NewExpense = (props) => {
 
     return (
         <div className="new-expense" >
-            <ExpenseForm dataHandler={savedDataHandler} />
+            <ExpenseForm dataHandler={savedDataHandler} onOpenModal={props.onOpenModal} />
         </div>
     )
 }

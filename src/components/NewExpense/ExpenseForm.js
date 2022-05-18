@@ -17,6 +17,11 @@ const ExpenseForm = props => {
 
     const submitHandler = event => {
         event.preventDefault()
+        if (!enteredTitle.current.value.trim.length) {
+            props.onOpenModal(true)
+            return
+        }
+
         const expenseData = {
             title: enteredTitle.current.value,
             amount: +expense.current.value,
@@ -32,7 +37,7 @@ const ExpenseForm = props => {
         setOpenForm(!openForm)
         if (!openForm) {resetForm()}
     }
-    
+
     if (!openForm) {
         return (
             <div className="new-expense__controls" >

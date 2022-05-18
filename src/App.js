@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense'
+import ErrorModal from './components/UI/ErrorModal'
 
 const App = () => {
   const expenses = [
@@ -26,17 +27,24 @@ const App = () => {
   ];
 
   const [expenseList, setExpenseList] = useState(expenses)
-  useEffect(() => console.log("Current Expenses List: ", expenseList))
+  const [displayModal, setDisplayModal] = useState(false)
 
   const savedExpenseHandler = data => {
     setExpenseList(prevState => {
       return [data,...prevState]
     })
   }
+  const openModalHandler = () => {
+    setDisplayModal(true)
+  } 
+  const dismissModalHandler = () => {
+    setDisplayModal(false)
+  }
 
   return (
     <div>
-      <NewExpense expenseHandler={savedExpenseHandler} />
+      {displayModal? <ErrorModal onDismissModal={dismissModalHandler} />: <></>}
+      <NewExpense expenseHandler={savedExpenseHandler} onOpenModal={openModalHandler} />
       <Expenses expenses={expenseList} />
     </div>
   );
