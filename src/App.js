@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ReactDOM from 'react-dom'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense'
 import ErrorModal from './components/UI/ErrorModal'
@@ -43,7 +44,9 @@ const App = () => {
 
   return (
     <div>
-      {displayModal? <ErrorModal onDismissModal={dismissModalHandler} />: <></>}
+      {displayModal? ReactDOM.createPortal(<ErrorModal onDismissModal={dismissModalHandler} />, document.getElementById("modal-root")) 
+      : <></>
+      }
       <NewExpense expenseHandler={savedExpenseHandler} onOpenModal={openModalHandler} />
       <Expenses expenses={expenseList} />
     </div>
