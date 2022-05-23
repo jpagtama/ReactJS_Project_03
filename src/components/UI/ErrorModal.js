@@ -1,18 +1,30 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
 import styles from './ErrorModal.module.css'
 import Card from './Card'
 
 const ErrorModal = props => {
 
-    return (
-        <div className={`${styles.backdrop}`} >
-            <Card >
-                <div className={`${styles.modal}`}>
-                    <div className={`${styles.header}`}><h2>Something went wrong</h2></div>
-                    <div className={`${styles.content}`}>Please fill out the information on the form</div>
-                    <button type="button" onClick={props.onDismissModal} className={`${styles.actions}`} >Okay</button>
+    const Backdrop = () => <div className={`${styles.backdrop}`} />
+    const Modal = () => {
+        return (
+            <Card className={`${styles.modal}`} >
+                <div >
+                    <header className={`${styles.header}`}><h2>Something went wrong</h2></header>
+                    <div className={`${styles.content}`}>Please fix before continuing</div>
+                    <footer className={styles.actions}>
+                        <button type="button" onClick={props.onDismissModal} className={`${styles.actions}`} >Okay</button>
+                    </footer>
                 </div>
             </Card>
-        </div>
+        )
+    }
+
+    return (
+        <React.Fragment >
+            {ReactDOM.createPortal(<Modal />, document.getElementById("modal-root"))}
+            {ReactDOM.createPortal(<Backdrop />, document.getElementById("backdrop-root"))}
+        </React.Fragment>
     )
 }
 
