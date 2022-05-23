@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import ReactDOM from 'react-dom'
+import { useState, useEffect } from 'react'
+import LoginForm from './components/Authentication/LoginForm'
+import Header from './components/UI/Header'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense'
 import ErrorModal from './components/UI/ErrorModal'
@@ -27,8 +28,16 @@ const App = () => {
     },
   ];
 
+  const [loggedIn, setLoggedIn] = useState(false)
   const [expenseList, setExpenseList] = useState(expenses)
   const [displayModal, setDisplayModal] = useState(false)
+
+  useEffect(() => {
+    const loggedInLocalStorage = localStorage.getItem("isLoggedIn")
+    if (loggedInLocalStorage === "1") {
+      setLoggedIn(true)
+    }
+  }, [])
 
   const savedExpenseHandler = data => {
     setExpenseList(prevState => {
@@ -41,12 +50,20 @@ const App = () => {
   const dismissModalHandler = () => {
     setDisplayModal(false)
   }
+  const logInHandler = () => {
+    localStorage.setItem("isLoggedIn","1")
+    setLoggedIn(true)
+  }
+  const logOutHandler = () => {
+    localStorage.removeItem("isLoggedIn")
+    setLoggedIn(false)
+  }
 
   return (
     <div>
-      {displayModal? ReactDOM.createPortal(<ErrorModal onDismissModal={dismissModalHandler} />, document.getElementById("modal-root")) 
-      : <></>
-      }
+      {displayModal && <ErrorModal onDismissModal={dismissModalHandler} />}
+      {!loggedIn && <LoginForm onLogIn={logInHandler} onOpenModal={openModalHandler} /> }
+      {loggedIn && <Header onLogOut={logOutHandler} /> }
       <NewExpense expenseHandler={savedExpenseHandler} onOpenModal={openModalHandler} />
       <Expenses expenses={expenseList} />
     </div>
