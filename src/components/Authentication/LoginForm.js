@@ -1,6 +1,7 @@
-import { useReducer, useState, useEffect, useContext } from 'react'
+import { useReducer, useState, useEffect, useContext, useRef } from 'react'
 import AuthContext from './auth-context'
 import Button from '../UI/Button'
+import Input from '../UI/Input'
 import styles from './LoginForm.module.css'
 
 const emailReducer = (state,action) => {
@@ -29,6 +30,8 @@ const LoginForm = props => {
     const [formIsValid, setFormIsValid] = useState(null)
     const { isValid: emailIsValid } = emailState
     const { isValid: passwordIsValid } = passwordState
+    const emailInputRef = useRef()
+    const passwordInputRef = useRef()
 
     useEffect(() => {
         const timer = setTimeout(() => { setFormIsValid(emailIsValid && passwordIsValid) }, 500)
@@ -39,8 +42,12 @@ const LoginForm = props => {
         event.preventDefault()
         if (checkFormIsValid()) {
             ctx.onLogIn()
-        } else {
-            props.onOpenModal(true)
+        } else if (!emailIsValid) {
+            emailInputRef.current.focus()
+            // props.onOpenModal(true)
+        } else if (!passwordIsValid) {
+            passwordInputRef.current.focus()
+            // props.onOpenModal(true)
         }
     }
     const emailHandler = event => {
@@ -60,10 +67,11 @@ const LoginForm = props => {
     return (
         <form className={styles.form} onSubmit={submitHandler} >
             <label htmlFor="email" >Email {emailState.isValid === false && <span className={styles.errorMessage} >enter a valid email</span>}</label>
-            <input id="email" type="text" onChange={emailHandler} onBlur={yeetEmailFocusHandler} value={emailState.value} />
+            <Input ref={emailInputRef} id="email" type="text" onChange={emailHandler} onBlur={yeetEmailFocusHandler} value={emailState.value} />
             <label htmlFor="password" >Password {passwordState.isValid === false && <span className={styles.errorMessage} >must be more than 6 characters</span>}</label>
-            <input id="password" type="password" onChange={passwordHandler} onBlur={yeetPasswordFocusHandler} value={passwordState.value} />
-            <Button type="submit" isDisabled={formIsValid === false || formIsValid == null? true : false} >Log In</Button>
+            <Input ref={passwordInputRef} id="password" type="password" onChange={passwordHandler} onBlur={yeetPasswordFocusHandler} value={passwordState.value} />
+            {/* <Button type="submit" isDisabled={formIsValid === false || formIsValid == null? true : false} >Log In</Button> */}
+            <Button type="submit" >Log In</Button>
         </form>
     )
 }
