@@ -1,9 +1,13 @@
+import { useContext } from 'react'
+import AuthContext from '../Authentication/auth-context'
 import Button from './Button'
 import styles from './Header.module.css'
 
-const Header = props => {
+const Header = () => {
+    const ctx = useContext(AuthContext)
+
     const logOutHandler = () => {
-        props.onLogOut()
+        ctx.onLogOut()
     }
 
     return (

@@ -1,4 +1,5 @@
-import { useReducer, useState, useEffect } from 'react'
+import { useReducer, useState, useEffect, useContext } from 'react'
+import AuthContext from './auth-context'
 import Button from '../UI/Button'
 import styles from './LoginForm.module.css'
 
@@ -22,7 +23,7 @@ const passwordReducer = (state,action) => {
 }
 
 const LoginForm = props => {
-
+    const ctx = useContext(AuthContext)
     const [emailState, dispatchEmail] = useReducer(emailReducer, {value:'',isValid:null})
     const [passwordState, dispatchPassword] = useReducer(passwordReducer, {value:'',isValid:null})
     const [formIsValid, setFormIsValid] = useState(null)
@@ -37,7 +38,7 @@ const LoginForm = props => {
     const submitHandler = event => {
         event.preventDefault()
         if (checkFormIsValid()) {
-            props.onLogIn()
+            ctx.onLogIn()
         } else {
             props.onOpenModal(true)
         }

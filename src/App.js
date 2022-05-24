@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
+import AuthContext from './components/Authentication/auth-context'
 import LoginForm from './components/Authentication/LoginForm'
 import Header from './components/UI/Header'
 import Expenses from './components/Expenses/Expenses'
@@ -26,18 +27,11 @@ const App = () => {
       amount: 450,
       date: new Date(2021, 5, 12),
     },
-  ];
+  ]
 
-  const [loggedIn, setLoggedIn] = useState(false)
+  const ctx = useContext(AuthContext)
   const [expenseList, setExpenseList] = useState(expenses)
   const [displayModal, setDisplayModal] = useState(false)
-
-  useEffect(() => {
-    const loggedInLocalStorage = localStorage.getItem("isLoggedIn")
-    if (loggedInLocalStorage === "1") {
-      setLoggedIn(true)
-    }
-  }, [])
 
   const savedExpenseHandler = data => {
     setExpenseList(prevState => {
@@ -50,24 +44,16 @@ const App = () => {
   const dismissModalHandler = () => {
     setDisplayModal(false)
   }
-  const logInHandler = () => {
-    localStorage.setItem("isLoggedIn","1")
-    setLoggedIn(true)
-  }
-  const logOutHandler = () => {
-    localStorage.removeItem("isLoggedIn")
-    setLoggedIn(false)
-  }
 
   return (
-    <div>
+    <React.Fragment >
       {displayModal && <ErrorModal onDismissModal={dismissModalHandler} />}
-      {!loggedIn && <LoginForm onLogIn={logInHandler} onOpenModal={openModalHandler} /> }
-      {loggedIn && <Header onLogOut={logOutHandler} /> }
+      {!ctx.isLoggedIn && <LoginForm onOpenModal={openModalHandler} /> }
+      {ctx.isLoggedIn && <Header /> }
       <NewExpense expenseHandler={savedExpenseHandler} onOpenModal={openModalHandler} />
       <Expenses expenses={expenseList} />
-    </div>
-  );
+    </React.Fragment>
+  )
 }
 
 export default App;
