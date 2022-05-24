@@ -1,5 +1,6 @@
 .form {
-    margin: 3rem auto;
+    width: 90%;
+    margin: auto;
 }
 .form label {
     color: white;
